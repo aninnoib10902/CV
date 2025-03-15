@@ -2,6 +2,17 @@
 const themeSwitch = document.querySelector('.theme-switch');
 const body = document.body;
 
+// Set dark mode by default
+if (!body.classList.contains('dark-mode')) {
+    body.classList.add('dark-mode');
+    body.classList.remove('light-mode');
+    const icon = themeSwitch.querySelector('i');
+    if (icon) {
+        icon.classList.add('fa-sun');
+        icon.classList.remove('fa-moon');
+    }
+}
+
 themeSwitch.addEventListener('click', () => {
     body.classList.toggle('dark-mode');
     body.classList.toggle('light-mode');
@@ -12,21 +23,35 @@ themeSwitch.addEventListener('click', () => {
 });
 
 // Progress Bars Animation
-const animateProgressBars = () => {
-    document.querySelectorAll('.progress').forEach(progress => {
-        progress.style.width = `${progress.getAttribute('data-percent')}%`;
+function animateProgressBars() {
+    const progressBars = document.querySelectorAll('.progress');
+    let completed = 0;
+
+    progressBars.forEach((bar, index) => {
+        const targetPercent = parseInt(bar.getAttribute('data-percent'));
+        let currentWidth = 0;
+
+        const interval = setInterval(() => {
+            if (currentWidth < targetPercent) {
+                currentWidth++;
+                bar.style.width = currentWidth + '%';
+            } else {
+                clearInterval(interval);
+                completed++;
+                
+                if (completed === progressBars.length) {
+                    setTimeout(() => {
+                        progressBars.forEach(bar => bar.style.width = '0%');
+                        setTimeout(() => animateProgressBars(), 100);
+                    }, 3000); // Changed to 3000ms (3 seconds)
+                }
+            }
+        }, 20);
     });
-};
+}
 
-// Intersection Observer for progress bars
-const observer = new IntersectionObserver(entries => 
-    entries.forEach(entry => {
-        if (entry.isIntersecting) animateProgressBars();
-    })
-);
-
-const skillsSection = document.querySelector('#habilidades');
-if (skillsSection) observer.observe(skillsSection);
+// Start animation when page loads
+window.addEventListener('load', animateProgressBars);
 
 // Navigation Menu
 let menuVisible = false;
@@ -56,3 +81,23 @@ if (contactForm) {
         contactForm.reset();
     });
 }
+
+// Back to Top Button
+document.addEventListener('DOMContentLoaded', () => {
+    const backToTop = document.querySelector('.back-to-top');
+
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+});
