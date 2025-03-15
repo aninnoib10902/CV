@@ -300,3 +300,37 @@ section:hover {
 .back-to-top i {
     font-size: 20px;
 }
+
+/* Update the inicio section styles */
+#inicio {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGJ3aWwwZGh6N28wYTJpY2pxanBydmtka2l6eHpmcjN1OGFoajV6dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/QxSveBdhdtLgagcKdR/giphy.gif");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#inicio .contenido-seccion {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+}
+
+/* Add these styles to ensure white text in both modes */
+#inicio .info h1,
+#inicio .info h2,
+#inicio .redes a i {
+    color: var(--text-dark);
+}
+
+.light-mode #inicio .contenido-seccion {
+    background: rgba(255, 255, 255, 0.2);
+}
